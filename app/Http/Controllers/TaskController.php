@@ -58,12 +58,17 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
 
+        $task-> name = $request-> name;
+
+        $task->description = $request->description;
+
         if ($request->hasFile('img_url')){
             $path = $request->img_url->store('public/tasks_img');
             $task->img_url = 'tasks_img/' . basename($path);
         }
-
-        $task->save($request->all());
+        $task->name = $request->id_user;
+        $task->description = $request->state;
+        $task->update();
 
         return response()->json($task, 200);
 

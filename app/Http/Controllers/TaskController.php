@@ -54,16 +54,21 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $task = Task::findOrFail($id);
+        $task = Task::findOrFail($request->id);
+
+        $task-> name = $request-> name;
+
+        $task->description = $request->description;
 
         if ($request->hasFile('img_url')){
             $path = $request->img_url->store('public/tasks_img');
             $task->img_url = 'tasks_img/' . basename($path);
         }
-
-        $task->save($request->all());
+        $task->id_user = $request->id_user;
+        $task->state = $request->state;
+        $task->update();
 
         return response()->json($task, 200);
 

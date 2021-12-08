@@ -62,12 +62,18 @@ class TaskController extends Controller
 
         $task->description = $request->description;
 
+        $task-> name = $request-> name;
+
+        $task->description = $request->description;
+
         if ($request->hasFile('img_url')){
             $path = $request->img_url->store('public/tasks_img');
             $task->img_url = 'tasks_img/' . basename($path);
         }
+
         $task->id_user = $request->id_user;
         $task->state = $request->state;
+
         $task->update();
 
         return response()->json($task, 200);

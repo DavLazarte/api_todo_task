@@ -16,9 +16,6 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 
 Route::group([
@@ -36,7 +33,15 @@ Route::group([
 
 });
 
+
+Route::group([
+
+    'middleware'=>'api'
+
+], function($router){
     Route::get('/tasks', [TaskController::class, 'index']);
     Route::post('/tasks', [TaskController::class, 'store']);
     Route::post('/tasks/{id}', [TaskController::class, 'update']);
     Route::delete('/tasks/{id}', [TaskController::class, 'delete']);
+});
+    
